@@ -1,0 +1,40 @@
+
+---
+
+### 📁 Dataset
+
+Download from:  
+[https://www.kaggle.com/mlg-ulb/creditcardfraud](https://www.kaggle.com/mlg-ulb/creditcardfraud)
+
+Key columns:
+- 30 anonymized features (`V1`–`V28`), `Amount`, `Time`
+- Target: `Class` (1 = Fraud, 0 = Legit)
+
+---
+
+### 🔧 `train_model.py`
+```python
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from imblearn.under_sampling import RandomUnderSampler
+from sklearn.metrics import classification_report
+import joblib
+
+df = pd.read_csv("data/creditcard.csv")
+X = df.drop("Class", axis=1)
+y = df["Class"]
+
+# Undersampling
+rus = RandomUnderSampler()
+X_res, y_res = rus.fit_resample(X, y)
+
+X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.2)
+
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+print(classification_report(y_test, y_pred))
+joblib.dump(model, "model.pkl")
+print("✅ Model saved")
