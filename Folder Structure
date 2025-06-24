@@ -1,0 +1,9 @@
+credit_card_fraud_detector/
+├── data/creditcard.csv              # Dataset from Kaggle
+├── train_model.py                   # Model training + saving
+├── predict.py                       # CLI testing
+├── app.py                           # Streamlit interface
+├── model.pkl                        # Saved model
+├── requirements.txt
+├── README.md
+└── .gitignore
